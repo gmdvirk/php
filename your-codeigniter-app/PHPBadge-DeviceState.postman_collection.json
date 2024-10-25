@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "2779a56c-f83f-41ce-bde2-0db8fb9cf22d",
+		"name": "PHPBadge-DeviceState",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21312557"
+	},
+	"item": [
+		{
+			"name": "Save Radio State",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"device_id\": \"998106825\",\n    \"avg_airtime_ms\": 0,\n    \"avg_rssi_db\": 239,\n    \"infoPacket\": 2,\n    \"regularUplink\": 1,\n    \"uplink_attempts\": 42,\n    \"uplink_failures\": 42\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.164.134.209/api/Badge/deviceRadioState",
+					"protocol": "http",
+					"host": [
+						"35",
+						"164",
+						"134",
+						"209"
+					],
+					"path": [
+						"api",
+						"Badge",
+						"deviceRadioState"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Battery State",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"battery_voltage_mv\": 2024,\n    \"device_id\": \"998106825\",\n    \"file_system_size_kb\": 25,\n    \"firmware_version\": \"v2.25.1\",\n    \"infoPacket\": 2,\n    \"last_updated_min\": 1,\n    \"number_of_resets\": 26,\n    \"regularUplink\": 1,\n    \"run_duration_s\": 181\n}"
+				},
+				"url": {
+					"raw": "http://35.164.134.209/api/badge/deviceBatteryState",
+					"protocol": "http",
+					"host": [
+						"35",
+						"164",
+						"134",
+						"209"
+					],
+					"path": [
+						"api",
+						"badge",
+						"deviceBatteryState"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,23 @@
+# Branch Name: master-staff-rounding-v8
+
+# Alter Tables 
+
+ALTER TABLE `ci_badge`.`event_window_global_settings` 
+ADD COLUMN `w2Start` VARCHAR(45) NULL DEFAULT NULL AFTER `wEnd`,
+ADD COLUMN `w2End` VARCHAR(45) NULL DEFAULT NULL AFTER `w2Start`;
+
+
+ALTER TABLE `ci_badge`.`global_window_events` 
+ADD COLUMN `window_start` DATETIME NULL DEFAULT NULL AFTER `created_at`,
+ADD COLUMN `window_stop` DATETIME NULL DEFAULT NULL AFTER `window_start`;
+
+
+# Tasks Completed 
+
+1. Global Settings button text changed to : Shift Change Time
+2. Button Colour changed to Green
+3. Global Settings Page: Added a new note for UTC/GMT Time
+4. Global Settings page: title changed to : Shift Change Time
+5. Global Settings page: Added option to add 2nd time window
+6. Added `window_start` and `window_stop` in global_window_events table.
+7. Hide custom window settings for managers

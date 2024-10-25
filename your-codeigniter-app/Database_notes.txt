@@ -1,0 +1,199 @@
+Date: Jun 19/06/2022
+
+Branch : gateway-section
+Gateway Feature
+
+Create new table for  Gateways
+
+
+CREATE TABLE `ci_badge`.`gateways` ( `id` INT NOT NULL AUTO_INCREMENT , `gateway_id` VARCHAR(100) NOT NULL , `name` VARCHAR(100) NOT NULL , `description` VARCHAR(500) NOT NULL , `latitude` VARCHAR(50) NOT NULL , `longitude` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+-------------------------------------------------------------------------------------------------------
+
+
+Branch: master-reader-badge-settings
+Date: July 16, 2022
+
+Add two new columns in readers tabble : vJsonString and jsonAccepted
+
+ALTER TABLE `readers` ADD `vJsonString` TEXT NULL DEFAULT NULL AFTER `v2`, ADD `jsonAccepted` TEXT NULL DEFAULT NULL AFTER `vJsonString`;
+
+----------------------------------------------------------------------------------------------------------
+
+Date: Sept 13, 2022
+
+CREATE TABLE `hourly_reader_events` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `window_start` datetime NOT NULL,
+  `window_stop` datetime NOT NULL,
+  `json_data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1435 DEFAULT CHARSET=latin1;
+
+
+
+CREATE TABLE `global_window_events` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `json_data` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `window_start` datetime DEFAULT NULL,
+  `window_stop` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+
+
+CREATE TABLE `event_window_global_settings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `wStart` varchar(45) DEFAULT NULL,
+  `wEnd` varchar(45) DEFAULT NULL,
+  `w2Start` varchar(45) DEFAULT NULL,
+  `w2End` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+
+
+-------------------------------------------------------------------------------------------
+
+Date: Sept 27, 2022
+Feature: API for Storing Device Battery and Radio Stats
+Branch: master-device-state-api
+
+1. New Table for Battery Stats
+
+CREATE TABLE `device_battery_stats` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `door_serial` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `battery_voltage_mv` varchar(10) NOT NULL,
+  `file_system_size_b` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `firmware_version` varchar(25) NOT NULL,
+  `last_uploaded_min` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `number_of_resets` varchar(10) NOT NULL,
+  `run_duration_s` varchar(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+2. Create Radio State Table
+
+CREATE TABLE `device_radio_stats` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `door_serial` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `avg_airtime_ms` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `avg_rssi_db` varchar(10) NOT NULL,
+  `uplink_attempts` varchar(10) NOT NULL,
+  `uplink_failures` varchar(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+----------------------------------------------------------------------------------
+
+Date: Nov 13, 2022
+Feature: API for Storing Device Esb Stats
+Branch: device-esb-stat
+
+1. New Table for Esb Stat
+
+CREATE TABLE device_esb_stats (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  badge_seen_packets int unsigned NOT NULL,
+  door_serial varchar(50) NOT NULL,
+  esb_failures int unsigned NOT NULL,
+  packets_exchanged int unsigned NOT NULL,
+  pir_triggers int unsigned NOT NULL,
+  created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+----------------------------------------------------------------------------------------
+Date: Apr 14, 2023
+Feature: Create Roles and show in dropdown
+Branch: improvements-13Apr
+
+CREATE TABLE `ci_badge`.`roles` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `created_at` DATETIME NULL,
+  PRIMARY KEY (`id`));
+---------------------------------------------------------------------------------------------
+Date: Apr 15, 2023
+Feature: Create Units and show in dropdown
+Branch: unit-changes-apr23
+
+CREATE TABLE `ci_badge`.`units` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `created_at` DATETIME NULL,
+  PRIMARY KEY (`id`));
+
+----------------------------------------------------------------------------------------------
+Date: May 31, 2023
+Feature : Battery State API
+Branch: badgeBatteryState
+
+
+CREATE TABLE `ci_badge`.`badge_battery_state` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `badge_serial` VARCHAR(32) NULL,
+  `b_batt_voltage_v` INT(8) NULL,
+  `b_firmware_version` VARCHAR(100) NULL,
+  `system_resets` INT UNSIGNED NULL,
+  `wake_duration_s` INT UNSIGNED NULL,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`));
+
+----------------------------------------------------------------------------------------------
+Date: June 22, 2023
+Feature : ESB State API
+Branch: badgeEsbState
+
+CREATE TABLE `ci_badge`.`badge_esb_state` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `badge_serial` VARCHAR(32) NULL,
+  `lfr_triggers` INT UNSIGNED NULL,
+  `b_packets_saved` INT(8) NULL,
+  `b_packets_exchanged` INT(8) NULL,
+  `b_crc_failures` INT UNSIGNED NULL,
+  `b_esb_failures` INT UNSIGNED NULL,
+  `b_rssi_failures` INT UNSIGNED NULL,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`));
+
+----------------------------------------------------------------------------------------------
+Date: Sept 18, 2023
+Feature : Add unit to Beacons
+Branch: beacon-unit-changes
+
+# Add Unit Column to Readers (used for beacons) Table
+
+ALTER TABLE `ci_badge`.`readers` 
+ADD COLUMN `vUnit` VARCHAR(45) NULL AFTER `jsonAccepted`;
+
+# Add Room Number Column to Readers (used for beacons) Table
+
+ALTER TABLE `ci_badge`.`readers` 
+ADD COLUMN `roomNumber` VARCHAR(100) NULL AFTER `vUnit`;
+
+
+# Add new columns to Upload Reader table
+ALTER TABLE `ci_badge`.`uploaded_readers` 
+ADD COLUMN `vUnit` VARCHAR(45) NULL AFTER `vReaderSerial`,
+ADD COLUMN `roomNumber` VARCHAR(100) NULL AFTER `vUnit`;
+
+
+
+----------------------------------------------------------------------------------------------
+Date: Sept 20, 2023
+Feature : Add option to upload units
+Branch: bulk-upload-unit
+
+CREATE TABLE `ci_badge`.`uploaded_units` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `upload_id` INT NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `ignored` TINYINT(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`));

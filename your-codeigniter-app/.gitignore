@@ -1,0 +1,7 @@
+
+.DS_Store
+system/session
+cron_logs.txt
+uploads/facility_bin/
+
+tools/
