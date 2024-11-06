@@ -21,10 +21,11 @@ services:
       MYSQL_USER: sonu
       MYSQL_PASSWORD: 90avq*9QD#0K
     ports:
-      - "3308:3306"
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql  # Use a named volume for MySQL data
       - ./database/teastdatabase.sql:/docker-entrypoint-initdb.d/teastdatabase.sql  # Mount the SQL file
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL script to create readonly user
     command: --server-id=1 --log-bin=mysql-bin --binlog-format=row --binlog-do-db=ci_badge
 
   db_replica:
@@ -39,6 +40,7 @@ services:
     volumes:
       - db_replica_data:/var/lib/mysql  # Use a named volume for replica MySQL data
       - ./database/teastdatabase.sql:/docker-entrypoint-initdb.d/teastdatabase.sql  # Mount the same SQL file for replica
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL script to create readonly user
     command: --server-id=2 --relay-log=relay-bin --log-bin=mysql-bin --binlog-format=row --binlog-do-db=ci_badge
     depends_on:
       - db
