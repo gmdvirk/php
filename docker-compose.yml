@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: dockerfiles/php-apache/Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./your-codeigniter-app:/var/www/html
     depends_on:
@@ -16,12 +16,12 @@ services:
   db:
     image: mysql:8.0  # Specify the stable MySQL version
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: 90avq*9QD#0K
       MYSQL_DATABASE: ci_badge
       MYSQL_USER: sonu
       MYSQL_PASSWORD: 90avq*9QD#0K
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql  # Use a named volume for MySQL data
       - ./database/teastdatabase.sql:/docker-entrypoint-initdb.d/teastdatabase.sql  # Mount the SQL file
@@ -31,12 +31,12 @@ services:
   db_replica:
     image: mysql:8.0  # Use the same stable MySQL version for the replica
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: 90avq*9QD#0K
       MYSQL_DATABASE: ci_badge
       MYSQL_USER: sonu
       MYSQL_PASSWORD: 90avq*9QD#0K
     ports:
-      - "3308:3306"
+      - "3307:3306"
     volumes:
       - db_replica_data:/var/lib/mysql  # Use a named volume for replica MySQL data
       - ./database/teastdatabase.sql:/docker-entrypoint-initdb.d/teastdatabase.sql  # Mount the same SQL file for replica
